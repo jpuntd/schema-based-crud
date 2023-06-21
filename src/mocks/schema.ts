@@ -1,21 +1,4 @@
-export type Option = {
-    label: string;
-    value: string;
-}
-export type FormComponent =
-    'text'
-    | 'select'
-    | 'range_picker'
-    | 'textarea'
-
-export type FormField = {
-    name: string | string[];
-    label: string;
-    component: FormComponent;
-    required?: boolean;
-    options?: Option[];
-}
-
+import { FormField } from '../services/form-generator/formGenerator'
 export const schemaEventForm: FormField[] =
     [{
         name: "title",
@@ -39,7 +22,7 @@ export const schemaEventForm: FormField[] =
         ]
     },
     {
-        name: 'startDate', //["startDate", "endDate"],
+        name: ["startDate", "endDate"],
         component: "range_picker",
         label: "Date"
     },

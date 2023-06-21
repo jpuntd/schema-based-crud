@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Modal, Button } from "antd"
 import SchemaTable from "../components/SchemaTable";
 import SchemaForm from '../components/SchemaForm';
+import { schemaEventForm } from '../mocks/schema'
 
 const EventsTable = () => {
     const [isFormModalOpen, setIsformModalOpen] = useState(false);
@@ -16,7 +17,7 @@ const EventsTable = () => {
     const handleOk = handleFormModalCancel
 
     return <section>
-        <SchemaForm schema2={[]} />
+        <SchemaForm schema={schemaEventForm} />
         <Button type='primary' onClick={showFormModal}>Create</Button>
         <Modal title="Basic Modal" open={isFormModalOpen} onOk={handleOk} onCancel={handleFormModalCancel}>
             <p>Some contents...</p>

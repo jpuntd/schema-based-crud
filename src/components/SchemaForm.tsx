@@ -1,74 +1,13 @@
-/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "^_ }]*/
-import { Form, Input } from 'antd'
-import { schemaEventForm, FormField, FormComponent } from "../mocks/schema"
-
-const createText = (formField: FormField) => {
-  return <Form.Item
-    label={formField.label}
-    name={formField.name}
-    rules={formField.required ? [{ required: true, message: 'Required' }] : []}
-  >
-    <Input />
-  </Form.Item>
-
-}
-
-
-const createTextArea = (formField: FormField) => {
-  return <Form.Item
-    label={formField.label}
-    name={formField.name}
-    rules={formField.required ? [{ required: true, message: 'Required' }] : []}
-  >
-    <Input.TextArea />
-  </Form.Item>
-}
-
-const formFieldGenerator = {
-  'text': createText,
-  'textarea': createTextArea,
-  'select': createText,
-  'range_picker': createText
-
-}
+import { Form } from 'antd'
+import { generateFormItem, FormField } from '../services/form-generator/formGenerator';
 
 type Props = {
-  schema2?: FormField[]
+  schema: FormField[]
 }
 
-const schema: FormField[] = [{
-  name: "title",
-  label: "Title",
-  component: "text",
-  required: true
-},
+const SchemaForm = ({ schema }: Props) => {
 
-{
-  name: "description",
-  label: "Description",
-  component: "textarea"
-}]
-
-const createFormItem = (formField: FormField) => {
-  switch (formField.component) {
-    case 'text':
-      return createText(formField)
-    case 'textarea':
-      return createTextArea(formField)
-    case 'select':
-      return createText(formField)
-    case 'range_picker':
-      return createText(formField)
-    default:
-      const _exhaustiveCheck: never = formField.component;
-  }
-  return formFieldGenerator[formField.component](formField)
-}
-
-
-const SchemaForm = ({ schema2 }: Props) => {
-
-  return <Form>{schema.map(createFormItem)}</Form>
+  return <Form>{schema.map(generateFormItem)}</Form>
 }
 
 export default SchemaForm;
