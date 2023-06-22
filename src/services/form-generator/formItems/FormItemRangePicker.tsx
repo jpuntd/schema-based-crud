@@ -13,9 +13,10 @@ const FormItemRangePicker = (formField: FormFieldRangePicker) => {
     return <Form.Item
         label={formField.label}
         name={formField.name.join('|')}
+        required={formField.required}
         rules={formField.required ? [{ required: true, message: 'Required' }] : []}
     >
-        <RangePicker defaultValue={[dayjs("2022-09-10 13:00"), dayjs("2022-09-12 16:00")]} />
+        <RangePicker />
     </Form.Item>;
 }
 

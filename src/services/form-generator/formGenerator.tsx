@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import FormItemSelect, { FormFieldSelect } from './formItems/FormItemSelect';
 import FormItemRangePicker, { FormFieldRangePicker } from './formItems/FormItemRangePicker';
 import FormItemText, { FormFieldText } from './formItems/FormItemText';
@@ -16,14 +17,34 @@ const assertExhaustive = (_value: never): never => {
 export const generateFormItem = (formField: FormField) => {
   switch (formField.component) {
     case 'text':
-      return <FormItemText {...formField} />
+      return <FormItemText key={formField.name} {...formField} />
     case 'textarea':
-      return <FormItemTextarea {...formField} />
+      return <FormItemTextarea key={formField.name} {...formField} />
     case 'select':
-      return <FormItemSelect {...formField} />
+      return <FormItemSelect key={formField.name} {...formField} />
     case 'range_picker':
-      return <FormItemRangePicker {...formField} />
+      return <FormItemRangePicker key={formField.name.join('|')} {...formField} />
     default:
-      assertExhaustive(formField)
   }
+}
+
+export const getFormFieldValues = (form: any, formFields: FormField[]) => {
+  return formFields.reduce((prev: any, formField: FormField) => {
+    switch (formField.component) {
+      case 'text':
+      case 'textarea':
+      case 'select':
+        return { ...prev, [formField.name]: form.getFieldValue(formField.name) }
+      case 'range_picker':
+        const [beginDateName, endDateName] = formField.name
+        const [beginDateValue, endDateValue] = form.getFieldValue(formField.name.join('|'))
+        return {
+          ...prev,
+          [beginDateName]: dayjs(beginDateValue).format('YYYY-MM-DD'),
+          [endDateName]: dayjs(endDateValue).format('YYYY-MM-DD')
+        }
+      default:
+        assertExhaustive(formField)
+    }
+  }, {});
 }

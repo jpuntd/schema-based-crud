@@ -10,6 +10,7 @@ const FormItemText = (formField: FormFieldText) => {
     return <Form.Item
         label={formField.label}
         name={formField.name}
+        required={formField.required}
         rules={formField.required ? [{ required: true, message: 'Required' }] : []}
     >
         <Input />
