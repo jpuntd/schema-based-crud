@@ -2,10 +2,12 @@ import { useState, FC } from 'react'
 import { Modal, Button } from "antd"
 import SchemaTable from "../components/SchemaTable";
 import SchemaForm from '../components/SchemaForm';
-import { eventFormSchema } from '../schema/eventForm.schema'
+import { eventFormSchema } from '../schema/eventForm.schema';
+import { useCreateEvent, Event } from '../services/api/events';
 
 const EventsTable: FC = () => {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const { mutate, isLoading: isCreateEventLoading, isError: isCreateEventError } = useCreateEvent();
 
   const showFormModal = () => {
     setIsFormModalOpen(true)
@@ -14,14 +16,9 @@ const EventsTable: FC = () => {
     setIsFormModalOpen(false)
   };
 
-  const mutation = useMutation({
-    mutationFn: (newEvent) => {
-      return axios.post('/todos', newTodo)
-    },
-  })
-
-  const onSubmit = (values: Record<string, any>) => {
-    console.log(values);
+  const onSubmit = (newEvent: Event) => {
+    event.preventDefault();
+    mutate(newEvent);
     setIsFormModalOpen(false)
   }
 
