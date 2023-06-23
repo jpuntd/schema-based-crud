@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query'
 
 export type Event = Record<string, any>
 
@@ -12,10 +12,16 @@ export const useGetEvents = () => useQuery({
   },
 });
 
-export const useCreateEvent = () => useMutation({
-  mutationFn: (newEvent: Event) => {
-    console.log({ mutationFn: newEvent })
-    return axios.post('/event', newEvent)
-  }
-});
+export const useCreateEvent = () => {
+  const queryClient = useQueryClient();
 
+  return useMutation({
+    mutationFn: (newEvent: Event) => {
+      console.log({ mutationFn: newEvent })
+      return axios.post('/event', newEvent)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['events'] })
+    },
+  });
+};

@@ -1,5 +1,5 @@
 import { useState, FC } from 'react'
-import { Modal, Button } from "antd"
+import { Modal, Button, Space } from "antd"
 import { useQueryClient } from '@tanstack/react-query';
 import SchemaTable from "../components/SchemaTable";
 import SchemaForm from '../components/SchemaForm';
@@ -19,15 +19,9 @@ const EventsTable: FC = () => {
     setIsFormModalOpen(false)
   };
 
-  const refetchEvents = async () => {
-    await queryClient.invalidateQueries({ queryKey: ['events'] })
-  }
-
   const onSubmit = (newEvent: Event) => {
-    event.preventDefault();
     mutate(newEvent);
     setIsFormModalOpen(false);
-    refetchEvents();
   }
 
   if (isGetEventsLoading) {
@@ -41,7 +35,8 @@ const EventsTable: FC = () => {
   return (
     <section>
       <Button type='primary' onClick={showFormModal}> Create</Button >
-      <Modal title="Create event" open={isFormModalOpen} footer={null}>
+      <Space></Space>
+      <Modal title="Create event" open={isFormModalOpen} onCancel={handleFormModalCancel} footer={null}>
         <SchemaForm schema={eventFormSchema} onSubmit={onSubmit} />
       </Modal>
       <SchemaTable events={eventsData} />
