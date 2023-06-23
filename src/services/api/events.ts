@@ -17,7 +17,6 @@ export const useCreateEvent = () => {
 
   return useMutation({
     mutationFn: (newEvent: Event) => {
-      console.log({ mutationFn: newEvent })
       return axios.post('/event', newEvent)
     },
     onSuccess: () => {

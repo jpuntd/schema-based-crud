@@ -1,5 +1,5 @@
 import { useState, FC } from 'react'
-import { Modal, Button, Space } from "antd"
+import { Modal, Button, Divider } from "antd"
 import { useQueryClient } from '@tanstack/react-query';
 import SchemaTable from "../components/SchemaTable";
 import SchemaForm from '../components/SchemaForm';
@@ -33,14 +33,14 @@ const EventsTable: FC = () => {
   }
 
   return (
-    <section>
-      <Button type='primary' onClick={showFormModal}> Create</Button >
-      <Space></Space>
+    <>
+      <Button type='primary' onClick={showFormModal}> Create</Button>
+      <Divider />
       <Modal title="Create event" open={isFormModalOpen} onCancel={handleFormModalCancel} footer={null}>
         <SchemaForm schema={eventFormSchema} onSubmit={onSubmit} />
       </Modal>
       <SchemaTable events={eventsData} />
-    </section>)
+    </>);
 }
 
 export default EventsTable;
