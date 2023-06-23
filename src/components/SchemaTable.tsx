@@ -1,6 +1,6 @@
 import { Table } from "antd";
-import { useQuery } from '@tanstack/react-query'
 import { eventTableSchema, TableColumn } from "../schema/eventTable.schema";
+import { Event } from "../services/api/events";
 
 const columns = eventTableSchema.map((tableColumn: TableColumn) => {
   return {
@@ -11,30 +11,12 @@ const columns = eventTableSchema.map((tableColumn: TableColumn) => {
   }
 });
 
-function useEvents() {
-  return useQuery({
-    queryKey: ['events'],
-    queryFn: async () => {
-      const searchTerm = 'start';
-      const response = await fetch(`/events?s=${searchTerm}`).then(response => response.json())
-      return response.events
-    },
-  })
+type Props = {
+  events: Event[];
 }
 
-
-const SchemaTable = () => {
-  const { isLoading, isError, data, error } = useEvents()
-
-  if (isLoading) {
-    return <span>Loading...</span>
-  }
-
-  if (isError) {
-    return <span>Error: {error?.message}</span>
-  }
-
-  return <Table bordered={true} rowKey={'id'} dataSource={data} columns={columns} pagination={false} />
+const SchemaTable = ({ events }: Props) => {
+  return <Table bordered={true} rowKey={'id'} dataSource={events} columns={columns} pagination={false} />
 }
 
 export default SchemaTable

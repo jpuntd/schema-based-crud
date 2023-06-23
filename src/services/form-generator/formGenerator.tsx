@@ -37,7 +37,12 @@ export const getFormFieldValues = (form: any, formFields: FormField[]) => {
         return { ...prev, [formField.name]: form.getFieldValue(formField.name) }
       case 'range_picker':
         const [beginDateName, endDateName] = formField.name
-        const [beginDateValue, endDateValue] = form.getFieldValue(formField.name.join('|'))
+        const dateValues = form.getFieldValue(formField.name.join('|'))
+        if (!dateValues || dateValues.length !== 2) {
+          return prev;
+        }
+        const [beginDateValue, endDateValue] = dateValues;
+
         return {
           ...prev,
           [beginDateName]: dayjs(beginDateValue).format('YYYY-MM-DD'),
