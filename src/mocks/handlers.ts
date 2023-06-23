@@ -20,7 +20,7 @@ export const handlers = [
     const filteredEvents = events.filter((event: Event) => {
       return event.title.includes(searchTerm) || event.description.includes(searchTerm)
     });
-    console.log(searchTerm, filteredEvents);
+    //console.log(searchTerm, filteredEvents);
 
     return res(ctx.status(200), ctx.json({ events }));
   }),
