@@ -9,7 +9,6 @@ import { store } from './mocks/store'
 const init = () => {
   worker.start();
   store.set('events', events)
-  console.log(store.get('events'));
 }
 
 init()
